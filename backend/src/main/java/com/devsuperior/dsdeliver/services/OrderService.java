@@ -58,5 +58,16 @@ public class OrderService {
 		order = repository.save(order);
 		return new OrderDTO(order);
 	}
+
+	// Método para atualizar o status do pedido
+	@Transactional
+	public OrderDTO setDelivered(Long id) {
+		Order order = repository.getOne(id); // Não acessa o banco de dados, mas instancia um pedido
+		order.setStatus(OrderStatus.DELIVERED);
+		
+		order = repository.save(order); // Salva no banco
+		
+		return new OrderDTO(order);
+	}
 	
 }

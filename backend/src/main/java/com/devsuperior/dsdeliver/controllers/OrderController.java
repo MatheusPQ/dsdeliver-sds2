@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +38,13 @@ public class OrderController {
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri(); // Cria a URI que corresponde ao recurso criado
-		return ResponseEntity.created(uri).body(dto); 
+		return ResponseEntity.created(uri).body(dto); // Código HTTP 201 - Created
+	}
+	
+	@PutMapping("/{id}/delivered")
+	public ResponseEntity<OrderDTO> setDelivered(@PathVariable Long id) { // @PathVariable para o parâmetro da URL ficar atrelado a este parâmetro na função
+		OrderDTO dto = service.setDelivered(id);
+		
+		return ResponseEntity.ok().body(dto); // Código HTTP 200
 	}
 }
